@@ -9,68 +9,97 @@
 <body>
 
 	<script>
-		let playerScore = 0;
-let computerScore = 0;
+
 
 function computerPlay () {
-  computerChoice = Math.floor(Math.random()*3);
-  if (computerChoice == 0) {
-    return "rock"
-  } else if (computerChoice == 1) {
-    return "paper"
-  } else if (computerChoice == 2) {
-    return "scissors"
-  }
+  let choices = [`rock`, `paper`, `scissors`]
+  let compChoice = choices[Math.floor(Math.random()*choices.length)];
+  console.log (`The computer played ${compChoice}.`);
+  return compChoice;
+} 
+
+function playerPlay () {
+  let choices = [`rock`, `paper`, `scissors`];
+  let playerChoice = prompt('Rock, Paper, Scissors, Shoot!');
+    if (choices.includes(playerChoice.toLowerCase())) {
+      console.log (`You chose ${playerChoice}.`);
+      return playerChoice;
+    }
+    else
+    {
+      console.log (`This choice doesn't exist! Enter Rock, Paper, or Scissors.`)
+      return false;
+    }
 }
 
-function playRound(playerChoice, computerChoice) {
-  if (playerChoice.toLowerCase == "rock" && computerChoice == "rock"
-      || playerChoice.toLowerCase == "paper" && computerChoice == "paper"
-      || playerChoice.toLowerCase == "scissors" && computerChoice == "scissors") {
-        console.log ("Same choice. It's a tie!");
+
+  function playRound () {
+    let playerChoice = playerPlay ()
+    if (playerChoice) {
+      let compChoice = computerPlay();
+      switch(true) {
+        case compChoice === 'paper' && playerChoice === 'scissors':
+          console.log('You win! Scissors cut paper.')
+          return true;
+          break;
+        case compChoice === 'rock' && playerChoice === 'paper':
+          console.log('You win! Paper covers rock.')
+          return true;
+          break;
+        case compChoice === 'scissors' && playerChoice === 'rock':
+          console.log ('You win! Rock crushes scissors')
+          return true;
+          break;
+        case compChoice === 'scissors' && playerChoice === 'paper':
+          console.log ('You lose! Scissors cut paper.')
+          return false;
+          break;
+        case compChoice === 'rock' && playerChoice === 'scissors':
+          console.log ('You lose! Rock crushes scissors.');
+          return false;
+          break;
+        case compChoice === 'paper' && playerChoice === 'rock':
+          console.log ('You lose! Paper covers rock.')
+          return false;
+          break;
+        case compChoice === playerChoice:
+            console.log (`Same choice. It's a tie!`)
+      }
+    }
+
   }
 
-  if (playerChoice.toLowerCase() == "rock" && computerChoice == "scissors") {
-      console.log ("Rock beats scissors - you WIN!")
-      playerScore++
-  }
+  function game() 
+  {
+    let compScore = 0;
+    let playerScore = 0;
+    while(true)
+    {
+      console.log("__________________________")
+      let whoWon = playRound();
+      if (whoWon === true)
+      {
+        ++playerScore;
+        console.log(`You have won: ${playerScore} rounds.`)
+      }
+       else if (whoWon === false)
+      {
+            ++compScore;
+            console.log(`Computer has won: ${compScore} rounds.`)
+      }
+           if(compScore === 5) 
+      {
+            console.log ("Computer wins the game!")
+            break;
+      }
+           else if(playerScore === 5) {
+            console.log ("You've won the game! Congratulations!")
+            break;
+          }
+        }
+      }
+  
 
-  if (playerChoice.toLowerCase() == "rock" && computerChoice == "paper") {
-      console.log ("Paper beats rock. You win!")
-      playerScore++
-  }
 
-  if (playerChoice.toLowerCase() == "rock" && computerChoice == "paper") {
-      console.log ("Scissors beat paper. You win!")
-      playerScore++
-  }
-
-  if (computerChoice == "rock" && playerChoice.toLowerCase == "scissors") {
-      console.log ("Awwww. Rock beats scissors. You lose.")
-      computerScore++
-  }
-
-  if (computerChoice == "paper" && playerChoice.toLowerCase == "rock") {
-      console.log ("Awwww. Rock beats scissors. You lose.")
-      computerScore++
-  }
-
-  if (computerChoice == "scissors" && playerChoice.toLowerCase == "paper") {
-      console.log ("Awwww. Rock beats scissors. You lose.")
-      computerScore++
-  }
-}
-
-function game() {
-  playerScore = 0;
-  computerScore = 0;
-  for (i = 0; i < 5; i++) {
-    playerChoice = prompt("Rock, paper, scissors, shoot!")
-    //const computerChoice = computerPlay();
-    const computerChoice = computerPlay();
-    playRound (playerChoice, computerPlay());
-    console.log ("User Score: " + playerScore + " Comp Score: " + computerScore)
-  }
-}
 game();
 	</script>
